@@ -54,7 +54,7 @@ store.on("error", () => {
 
 const sessionOptions = {
   store,
-  secret: process.env.SECRET,
+  secret: dbUrl,
   resave: false,
   saveUninitialized :true,
   cookie: {
@@ -75,9 +75,9 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-  res.locals.currUser = req.user || null;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.currUser = req.user;
   next();
 });
 
